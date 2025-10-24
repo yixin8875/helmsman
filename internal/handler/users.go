@@ -2,13 +2,17 @@ package handler
 
 import (
 	"errors"
+	"fmt"
+	utils2 "helmsman/internal/utils"
+	"time"
 
 	"github.com/gin-gonic/gin"
-
 	"github.com/go-dev-frame/sponge/pkg/copier"
 	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
 	"github.com/go-dev-frame/sponge/pkg/gin/response"
+	"github.com/go-dev-frame/sponge/pkg/jwt"
 	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
 	"github.com/go-dev-frame/sponge/pkg/utils"
 
 	"helmsman/internal/cache"
@@ -29,6 +33,7 @@ type UsersHandler interface {
 	GetByID(c *gin.Context)
 	GetByCondition(c *gin.Context)
 	Login(c *gin.Context)
+	Register(c *gin.Context)
 }
 
 type usersHandler struct {
@@ -247,7 +252,121 @@ func (h *usersHandler) GetByCondition(c *gin.Context) {
 	response.Success(c, gin.H{"users": data})
 }
 
-func (h *usersHandler) Login(c *gin.Context) {}
+// Login  users
+// @Summary Login a users
+// @Description Login a users entity using the provided data in the request body.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param data body types.LoginRequest true "users information"
+// @Success 200 {object} types.LoginReply{}
+// @Router /api/v1/users/login [post]
+func (h *usersHandler) Login(c *gin.Context) {
+	form := &types.LoginRequest{}
+	err := c.ShouldBindJSON(form)
+	if err != nil {
+		logger.Warn("ShouldBindJSON error: ", logger.Err(err), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.InvalidParams)
+		return
+	}
+	ctx := middleware.WrapCtx(c)
+	// 1. 首先查询用户名是否存在
+	// 1.1 查询用户名是否已经注册
+	user, err := h.iDao.GetByCondition(ctx, &query.Conditions{
+		Columns: []query.Column{
+			{
+				Name:  "username",
+				Exp:   "=",
+				Value: form.Username,
+			},
+		},
+	})
+	if err != nil && !errors.Is(err, database.ErrRecordNotFound) {
+		logger.Error("GetByCondition error", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+	if user == nil {
+		logger.Warn("Username not found", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.UsernameOrPasswordNotFound)
+		return
+	}
+	// 2. 验证密码是否正确
+	// 2.1 验证密码是否正确
+	if !utils2.CheckPassword(form.Password, user.PasswordHash) {
+		logger.Warn("ComparePassword error: ", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.UsernameOrPasswordNotFound)
+		return
+	}
+	_, token, err := jwt.GenerateToken(fmt.Sprintf("%d", user.ID))
+	if err != nil {
+		logger.Error("GenerateToken error", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.InternalServerError)
+		return
+	}
+	response.Success(c, gin.H{"id": user.ID, "username": user.Username, "token": token})
+}
+
+// Register a new users
+// @Summary Register a new users
+// @Description Creates a new users entity using the provided data in the request body.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param data body types.RegisterRequest true "users information"
+// @Success 200 {object} types.RegisterReply{}
+// @Router /api/v1/users/register [post]
+func (h *usersHandler) Register(c *gin.Context) {
+	form := &types.RegisterRequest{}
+	err := c.ShouldBindJSON(form)
+	if err != nil {
+		logger.Warn("ShouldBindJSON error: ", logger.Err(err), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.InvalidParams)
+		return
+	}
+	ctx := middleware.WrapCtx(c)
+	// 1. 首先查询用户名是否已经注册
+	// 1.1 查询用户名是否已经注册
+	user, err := h.iDao.GetByCondition(ctx, &query.Conditions{
+		Columns: []query.Column{
+			{
+				Name:  "username",
+				Exp:   "=",
+				Value: form.Username,
+			},
+		},
+	})
+	if err != nil && !errors.Is(err, database.ErrRecordNotFound) {
+		logger.Error("GetByCondition error", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+	if user != nil {
+		logger.Warn("Username already exists", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.UsernameAlreadyExists)
+		return
+	}
+	hashPassword, err := utils2.HashPassword(form.Password)
+	if err != nil {
+		logger.Error("HashPassword error: ", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Error(c, ecode.InternalServerError)
+		return
+	}
+	users := &model.Users{
+		Username:     form.Username,
+		PasswordHash: hashPassword,
+		CreatedAt:    time.Now().Format("2006-01-02 15:04:05"),
+		UpdatedAt:    time.Now().Format("2006-01-02 15:04:05"),
+	}
+	err = h.iDao.Create(ctx, users)
+	if err != nil {
+		logger.Error("Create error", logger.Err(err), logger.Any("form", form), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+
+	response.Success(c, gin.H{"id": users.ID})
+}
 
 func getUsersIDFromPath(c *gin.Context) (string, uint64, bool) {
 	idStr := c.Param("id")
@@ -269,17 +388,4 @@ func convertUsers(users *model.Users) (*types.UsersObjDetail, error) {
 	// Note: if copier.Copy cannot assign a value to a field, add it here
 
 	return data, nil
-}
-
-func convertUserss(fromValues []*model.Users) ([]*types.UsersObjDetail, error) {
-	toValues := []*types.UsersObjDetail{}
-	for _, v := range fromValues {
-		data, err := convertUsers(v)
-		if err != nil {
-			return nil, err
-		}
-		toValues = append(toValues, data)
-	}
-
-	return toValues, nil
 }

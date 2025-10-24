@@ -814,6 +814,48 @@
         },
         "type": "object"
       },
+      "types.LoginReply": {
+        "properties": {
+          "code": {
+            "description": "return code",
+            "type": "integer"
+          },
+          "data": {
+            "description": "return data",
+            "properties": {
+              "id": {
+                "description": "id",
+                "type": "integer"
+              },
+              "token": {
+                "description": "token",
+                "type": "string"
+              },
+              "username": {
+                "description": "username",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "msg": {
+            "description": "return information description",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "types.LoginRequest": {
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "types.Params": {
         "properties": {
           "columns": {
@@ -833,6 +875,40 @@
           },
           "sort": {
             "description": "sorted fields, multi-column sorting separated by commas",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "types.RegisterReply": {
+        "properties": {
+          "code": {
+            "description": "return code",
+            "type": "integer"
+          },
+          "data": {
+            "description": "return data",
+            "properties": {
+              "id": {
+                "description": "id",
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "msg": {
+            "description": "return information description",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "types.RegisterRequest": {
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
             "type": "string"
           }
         },
@@ -2577,6 +2653,72 @@
           }
         ],
         "summary": "Get a users by custom condition",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "description": "Login a users entity using the provided data in the request body.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/types.LoginRequest"
+              }
+            }
+          },
+          "description": "users information",
+          "required": true,
+          "x-originalParamName": "data"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/types.LoginReply"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Login a users",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "description": "Creates a new users entity using the provided data in the request body.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/types.RegisterRequest"
+              }
+            }
+          },
+          "description": "users information",
+          "required": true,
+          "x-originalParamName": "data"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/types.RegisterReply"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Register a new users",
         "tags": [
           "users"
         ]

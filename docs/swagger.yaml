@@ -554,6 +554,35 @@ definitions:
         description: return information description
         type: string
     type: object
+  types.LoginReply:
+    properties:
+      code:
+        description: return code
+        type: integer
+      data:
+        description: return data
+        properties:
+          id:
+            description: id
+            type: integer
+          token:
+            description: token
+            type: string
+          username:
+            description: username
+            type: string
+        type: object
+      msg:
+        description: return information description
+        type: string
+    type: object
+  types.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   types.Params:
     properties:
       columns:
@@ -569,6 +598,29 @@ definitions:
         type: integer
       sort:
         description: sorted fields, multi-column sorting separated by commas
+        type: string
+    type: object
+  types.RegisterReply:
+    properties:
+      code:
+        description: return code
+        type: integer
+      data:
+        description: return data
+        properties:
+          id:
+            description: id
+            type: integer
+        type: object
+      msg:
+        description: return information description
+        type: string
+    type: object
+  types.RegisterRequest:
+    properties:
+      password:
+        type: string
+      username:
         type: string
     type: object
   types.SnapshotsObjDetail:
@@ -1777,6 +1829,51 @@ paths:
       security:
       - BearerAuth: []
       summary: Get a users by custom condition
+      tags:
+      - users
+  /api/v1/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a users entity using the provided data in the request body.
+      parameters:
+      - description: users information
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/types.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.LoginReply'
+      summary: Login a users
+      tags:
+      - users
+  /api/v1/users/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new users entity using the provided data in the request
+        body.
+      parameters:
+      - description: users information
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/types.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.RegisterReply'
+      summary: Register a new users
       tags:
       - users
 schemes:

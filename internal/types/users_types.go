@@ -91,3 +91,35 @@ type GetUsersByConditionReply struct {
 		Users UsersObjDetail `json:"users"`
 	} `json:"data"` // return data
 }
+
+// RegisterRequest request params
+type RegisterRequest struct {
+	Username string `json:"username" binding:""`
+	Password string `json:"password" binding:""`
+}
+
+// RegisterReply only for api docs
+type RegisterReply struct {
+	Code int    `json:"code"` // return code
+	Msg  string `json:"msg"`  // return information description
+	Data struct {
+		ID uint64 `json:"id"` // id
+	} `json:"data"` // return data
+}
+
+// LoginRequest request params
+type LoginRequest struct {
+	Username string `json:"username" binding:""`
+	Password string `json:"password" binding:""`
+}
+
+// LoginReply only for api docs
+type LoginReply struct {
+	Code int    `json:"code"` // return code
+	Msg  string `json:"msg"`  // return information description
+	Data struct {
+		ID       uint64 `json:"id"`       // id
+		Username string `json:"username"` // username
+		Token    string `json:"token"`    // token
+	} `json:"data"` // return data
+}

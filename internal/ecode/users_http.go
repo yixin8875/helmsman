@@ -23,4 +23,7 @@ var (
 	ErrListByLastIDUsers   = errcode.NewError(usersBaseCode+9, "failed to list by last id "+usersName)
 
 	// error codes are globally unique, adding 1 to the previous error code
+
+	UsernameAlreadyExists      = errcode.NewError(usersBaseCode+10, "username already exists")
+	UsernameOrPasswordNotFound = errcode.NewError(usersBaseCode+11, "username or password not found")
 )

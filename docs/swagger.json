@@ -1254,6 +1254,74 @@
                 }
             }
         },
+        "/api/v1/users/login": {
+            "post": {
+                "description": "Login a users entity using the provided data in the request body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Login a users",
+                "parameters": [
+                    {
+                        "description": "users information",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/types.LoginReply"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/register": {
+            "post": {
+                "description": "Creates a new users entity using the provided data in the request body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Register a new users",
+                "parameters": [
+                    {
+                        "description": "users information",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/types.RegisterReply"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users/{id}": {
             "get": {
                 "security": [
@@ -2185,6 +2253,48 @@
                 }
             }
         },
+        "types.LoginReply": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "return code",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "return data",
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "description": "id",
+                            "type": "integer"
+                        },
+                        "token": {
+                            "description": "token",
+                            "type": "string"
+                        },
+                        "username": {
+                            "description": "username",
+                            "type": "string"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "return information description",
+                    "type": "string"
+                }
+            }
+        },
+        "types.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "types.Params": {
             "type": "object",
             "properties": {
@@ -2205,6 +2315,40 @@
                 },
                 "sort": {
                     "description": "sorted fields, multi-column sorting separated by commas",
+                    "type": "string"
+                }
+            }
+        },
+        "types.RegisterReply": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "return code",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "return data",
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "description": "id",
+                            "type": "integer"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "return information description",
+                    "type": "string"
+                }
+            }
+        },
+        "types.RegisterRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

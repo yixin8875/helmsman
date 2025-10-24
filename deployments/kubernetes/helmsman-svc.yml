@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helmsman-svc
+  namespace: helmsman
+spec:
+  selector:
+    app: helmsman
+  type: ClusterIP
+  ports:
+    - name: helmsman-svc-http-port
+      port: 8080
+      targetPort: 8080
+

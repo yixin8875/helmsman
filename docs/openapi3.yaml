@@ -1,0 +1,1905 @@
+components:
+    schemas:
+        types.AccountsObjDetail:
+            properties:
+                createdAt:
+                    type: string
+                currency:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                initialBalance:
+                    type: number
+                name:
+                    type: string
+                updatedAt:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.Column:
+            properties:
+                exp:
+                    description: expressions, which default to = when the value is null, have =, !=, >, >=, <, <=, like
+                    type: string
+                logic:
+                    description: logical type, default value is "and", support &, and, ||, or
+                    type: string
+                name:
+                    description: column name
+                    type: string
+                value:
+                    description: column value
+            type: object
+        types.Conditions:
+            properties:
+                columns:
+                    description: columns info
+                    items:
+                        $ref: '#/components/schemas/types.Column'
+                    type: array
+            type: object
+        types.CreateAccountsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateAccountsRequest:
+            properties:
+                currency:
+                    type: string
+                initialBalance:
+                    type: number
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.CreateSnapshotsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateSnapshotsRequest:
+            properties:
+                imageURL:
+                    type: string
+                tradeID:
+                    type: integer
+                type:
+                    type: string
+            type: object
+        types.CreateStrategiesReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateStrategiesRequest:
+            properties:
+                description:
+                    type: string
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.CreateTagsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateTagsRequest:
+            properties:
+                color:
+                    type: string
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.CreateTradeTagsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tradeID:
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateTradeTagsRequest:
+            properties:
+                tagID:
+                    type: integer
+                tradeID:
+                    type: integer
+            type: object
+        types.CreateTradesReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateTradesRequest:
+            properties:
+                accountID:
+                    type: integer
+                actualEntryPrice:
+                    type: number
+                actualEntryTime:
+                    type: string
+                actualExitPrice:
+                    type: number
+                actualExitTime:
+                    type: string
+                commission:
+                    type: number
+                direction:
+                    type: string
+                executionScore:
+                    type: integer
+                exitReason:
+                    type: string
+                planNotes:
+                    type: string
+                plannedEntryPrice:
+                    type: number
+                plannedRiskAmount:
+                    type: number
+                plannedStopLoss:
+                    type: number
+                plannedTakeProfit:
+                    type: number
+                pnl:
+                    type: number
+                positionSize:
+                    type: number
+                rMultiple:
+                    type: number
+                reflectionNotes:
+                    type: string
+                status:
+                    type: string
+                strategyID:
+                    type: integer
+                symbol:
+                    type: string
+            type: object
+        types.CreateUsersReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        id:
+                            description: id
+                            type: integer
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.CreateUsersRequest:
+            properties:
+                passwordHash:
+                    type: string
+                username:
+                    type: string
+            type: object
+        types.DeleteAccountsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteSnapshotsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteStrategiesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteTagsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteTradeTagsByTradeIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteTradesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteUsersByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteUserssByIDsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.DeleteUserssByIDsRequest:
+            properties:
+                ids:
+                    description: id list
+                    items:
+                        type: integer
+                    minItems: 1
+                    type: array
+            type: object
+        types.GetAccountsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        accounts:
+                            $ref: '#/components/schemas/types.AccountsObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetSnapshotsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        snapshots:
+                            $ref: '#/components/schemas/types.SnapshotsObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetStrategiesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        strategies:
+                            $ref: '#/components/schemas/types.StrategiesObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetTagsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tags:
+                            $ref: '#/components/schemas/types.TagsObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetTradeTagsByTradeIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tradeTags:
+                            $ref: '#/components/schemas/types.TradeTagsObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetTradesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        trades:
+                            $ref: '#/components/schemas/types.TradesObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetUsersByConditionReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        users:
+                            $ref: '#/components/schemas/types.UsersObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.GetUsersByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        users:
+                            $ref: '#/components/schemas/types.UsersObjDetail'
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListAccountssReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        accountss:
+                            items:
+                                $ref: '#/components/schemas/types.AccountsObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListSnapshotssReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        snapshotss:
+                            items:
+                                $ref: '#/components/schemas/types.SnapshotsObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListStrategiessReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        strategiess:
+                            items:
+                                $ref: '#/components/schemas/types.StrategiesObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListTagssReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tagss:
+                            items:
+                                $ref: '#/components/schemas/types.TagsObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListTradeTagsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tradeTags:
+                            items:
+                                $ref: '#/components/schemas/types.TradeTagsObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListTradessReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        tradess:
+                            items:
+                                $ref: '#/components/schemas/types.TradesObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListUserssByIDsReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        userss:
+                            items:
+                                $ref: '#/components/schemas/types.UsersObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.ListUserssByIDsRequest:
+            properties:
+                ids:
+                    description: id list
+                    items:
+                        type: integer
+                    minItems: 1
+                    type: array
+            type: object
+        types.ListUserssReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    properties:
+                        userss:
+                            items:
+                                $ref: '#/components/schemas/types.UsersObjDetail'
+                            type: array
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.Params:
+            properties:
+                columns:
+                    description: query conditions
+                    items:
+                        $ref: '#/components/schemas/types.Column'
+                    type: array
+                limit:
+                    description: lines per page
+                    type: integer
+                page:
+                    description: page number, starting from page 0
+                    type: integer
+                sort:
+                    description: sorted fields, multi-column sorting separated by commas
+                    type: string
+            type: object
+        types.SnapshotsObjDetail:
+            properties:
+                createdAt:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                imageURL:
+                    type: string
+                tradeID:
+                    type: integer
+                type:
+                    type: string
+                updatedAt:
+                    type: string
+            type: object
+        types.StrategiesObjDetail:
+            properties:
+                createdAt:
+                    type: string
+                description:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                name:
+                    type: string
+                updatedAt:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.TagsObjDetail:
+            properties:
+                color:
+                    type: string
+                createdAt:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                name:
+                    type: string
+                updatedAt:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.TradeTagsObjDetail:
+            properties:
+                createdAt:
+                    type: string
+                tagID:
+                    type: integer
+                tradeID:
+                    type: integer
+                updatedAt:
+                    type: string
+            type: object
+        types.TradesObjDetail:
+            properties:
+                accountID:
+                    type: integer
+                actualEntryPrice:
+                    type: number
+                actualEntryTime:
+                    type: string
+                actualExitPrice:
+                    type: number
+                actualExitTime:
+                    type: string
+                commission:
+                    type: number
+                createdAt:
+                    type: string
+                direction:
+                    type: string
+                executionScore:
+                    type: integer
+                exitReason:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                planNotes:
+                    type: string
+                plannedEntryPrice:
+                    type: number
+                plannedRiskAmount:
+                    type: number
+                plannedStopLoss:
+                    type: number
+                plannedTakeProfit:
+                    type: number
+                pnl:
+                    type: number
+                positionSize:
+                    type: number
+                rMultiple:
+                    type: number
+                reflectionNotes:
+                    type: string
+                status:
+                    type: string
+                strategyID:
+                    type: integer
+                symbol:
+                    type: string
+                updatedAt:
+                    type: string
+            type: object
+        types.UpdateAccountsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateAccountsByIDRequest:
+            properties:
+                currency:
+                    type: string
+                id:
+                    description: uint64 id
+                    type: integer
+                initialBalance:
+                    type: number
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.UpdateSnapshotsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateSnapshotsByIDRequest:
+            properties:
+                id:
+                    description: uint64 id
+                    type: integer
+                imageURL:
+                    type: string
+                tradeID:
+                    type: integer
+                type:
+                    type: string
+            type: object
+        types.UpdateStrategiesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateStrategiesByIDRequest:
+            properties:
+                description:
+                    type: string
+                id:
+                    description: uint64 id
+                    type: integer
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.UpdateTagsByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateTagsByIDRequest:
+            properties:
+                color:
+                    type: string
+                id:
+                    description: uint64 id
+                    type: integer
+                name:
+                    type: string
+                userID:
+                    type: integer
+            type: object
+        types.UpdateTradeTagsByTradeIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateTradeTagsByTradeIDRequest:
+            properties:
+                tagID:
+                    type: integer
+                tradeID:
+                    type: integer
+            type: object
+        types.UpdateTradesByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateTradesByIDRequest:
+            properties:
+                accountID:
+                    type: integer
+                actualEntryPrice:
+                    type: number
+                actualEntryTime:
+                    type: string
+                actualExitPrice:
+                    type: number
+                actualExitTime:
+                    type: string
+                commission:
+                    type: number
+                direction:
+                    type: string
+                executionScore:
+                    type: integer
+                exitReason:
+                    type: string
+                id:
+                    description: uint64 id
+                    type: integer
+                planNotes:
+                    type: string
+                plannedEntryPrice:
+                    type: number
+                plannedRiskAmount:
+                    type: number
+                plannedStopLoss:
+                    type: number
+                plannedTakeProfit:
+                    type: number
+                pnl:
+                    type: number
+                positionSize:
+                    type: number
+                rMultiple:
+                    type: number
+                reflectionNotes:
+                    type: string
+                status:
+                    type: string
+                strategyID:
+                    type: integer
+                symbol:
+                    type: string
+            type: object
+        types.UpdateUsersByIDReply:
+            properties:
+                code:
+                    description: return code
+                    type: integer
+                data:
+                    description: return data
+                    type: object
+                msg:
+                    description: return information description
+                    type: string
+            type: object
+        types.UpdateUsersByIDRequest:
+            properties:
+                id:
+                    description: uint64 id
+                    type: integer
+                passwordHash:
+                    type: string
+                username:
+                    type: string
+            type: object
+        types.UsersObjDetail:
+            properties:
+                createdAt:
+                    type: string
+                id:
+                    description: convert to uint64 id
+                    type: integer
+                passwordHash:
+                    type: string
+                updatedAt:
+                    type: string
+                username:
+                    type: string
+            type: object
+    securitySchemes:
+        BearerAuth:
+            description: Type Bearer your-jwt-token to Value
+            in: header
+            name: Authorization
+            type: apiKey
+info:
+    contact: {}
+    description: http server api docs
+    title: helmsman api docs
+    version: v1.0.0
+openapi: 3.0.3
+paths:
+    /api/v1/accounts:
+        post:
+            description: Creates a new accounts entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateAccountsRequest'
+                description: accounts information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateAccountsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new accounts
+            tags:
+                - accounts
+    /api/v1/accounts/{id}:
+        delete:
+            description: Deletes a existing accounts identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteAccountsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a accounts by id
+            tags:
+                - accounts
+        get:
+            description: Gets detailed information of a accounts specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetAccountsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a accounts by id
+            tags:
+                - accounts
+        put:
+            description: Updates the specified accounts by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateAccountsByIDRequest'
+                description: accounts information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateAccountsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a accounts by id
+            tags:
+                - accounts
+    /api/v1/accounts/list:
+        post:
+            description: Returns a paginated list of accounts based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListAccountssReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of accountss by custom conditions
+            tags:
+                - accounts
+    /api/v1/snapshots:
+        post:
+            description: Creates a new snapshots entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateSnapshotsRequest'
+                description: snapshots information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateSnapshotsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new snapshots
+            tags:
+                - snapshots
+    /api/v1/snapshots/{id}:
+        delete:
+            description: Deletes a existing snapshots identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteSnapshotsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a snapshots by id
+            tags:
+                - snapshots
+        get:
+            description: Gets detailed information of a snapshots specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetSnapshotsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a snapshots by id
+            tags:
+                - snapshots
+        put:
+            description: Updates the specified snapshots by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateSnapshotsByIDRequest'
+                description: snapshots information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateSnapshotsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a snapshots by id
+            tags:
+                - snapshots
+    /api/v1/snapshots/list:
+        post:
+            description: Returns a paginated list of snapshots based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListSnapshotssReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of snapshotss by custom conditions
+            tags:
+                - snapshots
+    /api/v1/strategies:
+        post:
+            description: Creates a new strategies entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateStrategiesRequest'
+                description: strategies information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateStrategiesReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new strategies
+            tags:
+                - strategies
+    /api/v1/strategies/{id}:
+        delete:
+            description: Deletes a existing strategies identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteStrategiesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a strategies by id
+            tags:
+                - strategies
+        get:
+            description: Gets detailed information of a strategies specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetStrategiesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a strategies by id
+            tags:
+                - strategies
+        put:
+            description: Updates the specified strategies by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateStrategiesByIDRequest'
+                description: strategies information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateStrategiesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a strategies by id
+            tags:
+                - strategies
+    /api/v1/strategies/list:
+        post:
+            description: Returns a paginated list of strategies based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListStrategiessReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of strategiess by custom conditions
+            tags:
+                - strategies
+    /api/v1/tags:
+        post:
+            description: Creates a new tags entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateTagsRequest'
+                description: tags information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateTagsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new tags
+            tags:
+                - tags
+    /api/v1/tags/{id}:
+        delete:
+            description: Deletes a existing tags identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteTagsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a tags by id
+            tags:
+                - tags
+        get:
+            description: Gets detailed information of a tags specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetTagsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a tags by id
+            tags:
+                - tags
+        put:
+            description: Updates the specified tags by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateTagsByIDRequest'
+                description: tags information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateTagsByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a tags by id
+            tags:
+                - tags
+    /api/v1/tags/list:
+        post:
+            description: Returns a paginated list of tags based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListTagssReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of tagss by custom conditions
+            tags:
+                - tags
+    /api/v1/tradeTags:
+        post:
+            description: Creates a new tradeTags entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateTradeTagsRequest'
+                description: tradeTags information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateTradeTagsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new tradeTags
+            tags:
+                - tradeTags
+    /api/v1/tradeTags/{tradeID}:
+        delete:
+            description: Deletes a existing tradeTags identified by the given tradeID in the path.
+            parameters:
+                - description: tradeID
+                  in: path
+                  name: tradeID
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteTradeTagsByTradeIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a tradeTags by tradeID
+            tags:
+                - tradeTags
+        get:
+            description: Gets detailed information of a tradeTags specified by the given tradeID in the path.
+            parameters:
+                - description: tradeID
+                  in: path
+                  name: tradeID
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetTradeTagsByTradeIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a tradeTags by tradeID
+            tags:
+                - tradeTags
+        put:
+            description: Updates the specified tradeTags by given tradeID in the path, support partial update.
+            parameters:
+                - description: tradeID
+                  in: path
+                  name: tradeID
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateTradeTagsByTradeIDRequest'
+                description: tradeTags information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateTradeTagsByTradeIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a tradeTags by tradeID
+            tags:
+                - tradeTags
+    /api/v1/tradeTags/list:
+        post:
+            description: Returns a paginated list of tradeTags based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListTradeTagsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of tradeTags by custom conditions
+            tags:
+                - tradeTags
+    /api/v1/trades:
+        post:
+            description: Creates a new trades entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateTradesRequest'
+                description: trades information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateTradesReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new trades
+            tags:
+                - trades
+    /api/v1/trades/{id}:
+        delete:
+            description: Deletes a existing trades identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteTradesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a trades by id
+            tags:
+                - trades
+        get:
+            description: Gets detailed information of a trades specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetTradesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a trades by id
+            tags:
+                - trades
+        put:
+            description: Updates the specified trades by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateTradesByIDRequest'
+                description: trades information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateTradesByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a trades by id
+            tags:
+                - trades
+    /api/v1/trades/list:
+        post:
+            description: Returns a paginated list of trades based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListTradessReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of tradess by custom conditions
+            tags:
+                - trades
+    /api/v1/users:
+        post:
+            description: Creates a new users entity using the provided data in the request body.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.CreateUsersRequest'
+                description: users information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.CreateUsersReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Create a new users
+            tags:
+                - users
+    /api/v1/users/{id}:
+        delete:
+            description: Deletes a existing users identified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteUsersByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Delete a users by id
+            tags:
+                - users
+        get:
+            description: Gets detailed information of a users specified by the given id in the path.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetUsersByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a users by id
+            tags:
+                - users
+        put:
+            description: Updates the specified users by given id in the path, support partial update.
+            parameters:
+                - description: id
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.UpdateUsersByIDRequest'
+                description: users information
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.UpdateUsersByIDReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Update a users by id
+            tags:
+                - users
+    /api/v1/users/condition:
+        post:
+            description: Returns a single users that matches the specified filter conditions.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Conditions'
+                description: query condition
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.GetUsersByConditionReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a users by custom condition
+            tags:
+                - users
+    /api/v1/users/delete/ids:
+        post:
+            description: Deletes multiple users by a list of id
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.DeleteUserssByIDsRequest'
+                description: id array
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.DeleteUserssByIDsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Batch delete users by ids
+            tags:
+                - users
+    /api/v1/users/list:
+        get:
+            description: Returns a paginated list of userss starting after a given last id, useful for cursor-based pagination.
+            parameters:
+                - description: last id, default is MaxInt32
+                  in: query
+                  name: lastID
+                  schema:
+                    default: 0
+                    type: integer
+                - description: number per page
+                  in: query
+                  name: limit
+                  schema:
+                    default: 10
+                    type: integer
+                - description: 'sort by column name of table, and the '
+                  in: query
+                  name: sort
+                  schema:
+                    default: -id
+                    type: string
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListUserssReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of userss by last id
+            tags:
+                - users
+        post:
+            description: Returns a paginated list of users based on query filters, including page number and size.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.Params'
+                description: query parameters
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListUserssReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Get a paginated list of userss by custom conditions
+            tags:
+                - users
+    /api/v1/users/list/ids:
+        post:
+            description: Returns a list of users that match the list of id.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/types.ListUserssByIDsRequest'
+                description: id array
+                required: true
+                x-originalParamName: data
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/types.ListUserssByIDsReply'
+                    description: OK
+            security:
+                - BearerAuth: []
+            summary: Batch get users by ids
+            tags:
+                - users
+servers:
+    - url: http://localhost:8080/
+    - url: https://localhost:8080/

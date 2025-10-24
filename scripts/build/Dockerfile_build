@@ -1,0 +1,41 @@
+# Need to package the code first `tar zcf helmsman.tar.gz $(ls)` and move it to the same directory as Dokerfile
+
+# Compile the go code, you can specify the golang version
+FROM golang:1.23-alpine as build
+COPY . /go/src/helmsman
+WORKDIR /go/src/helmsman
+RUN tar zxf helmsman.tar.gz
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /helmsman cmd/helmsman/main.go
+
+# compressing binary files
+#cd /
+#upx -9 helmsman
+
+
+# building images with binary
+FROM alpine:latest
+MAINTAINER zhufuyi "g.zhufuyi@gmail.com"
+
+# set the time zone to Shanghai
+RUN apk add tzdata  \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && apk del tzdata
+
+# add curl, used for http service checking, can be installed without it if deployed in k8s
+RUN apk add curl
+
+COPY --from=build /helmsman /app/helmsman
+COPY --from=build /go/src/helmsman/configs/helmsman.yml /app/configs/helmsman.yml
+
+# http port
+EXPOSE 8080
+
+
+WORKDIR /app
+
+CMD ["./helmsman", "-c", "configs/helmsman.yml"]
+# if you use the Configuration Center, helmsman.yml is changed to the Configuration Center configuration.
+#CMD ["./helmsman", "-c", "configs/helmsman.yml", "-enable-cc"]

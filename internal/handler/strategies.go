@@ -2,8 +2,10 @@ package handler
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
 
 	"github.com/go-dev-frame/sponge/pkg/copier"
 	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
@@ -70,7 +72,14 @@ func (h *strategiesHandler) Create(c *gin.Context) {
 		return
 	}
 	// Note: if copier.Copy cannot assign a value to a field, add it here
-
+	strategies.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	strategies.UpdatedAt = time.Now().Format("2006-01-02 15:04:05")
+	claim, ok := middleware.GetClaims(c)
+	if !ok {
+		response.Error(c, ecode.ErrCreateStrategies)
+		return
+	}
+	strategies.UserID = cast.ToInt(claim.UID)
 	ctx := middleware.WrapCtx(c)
 	err = h.iDao.Create(ctx, strategies)
 	if err != nil {

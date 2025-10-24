@@ -78,20 +78,6 @@ type ListUserssRequest struct {
 	query.Params
 }
 
-// ListUserssReply only for api docs
-type ListUserssReply struct {
-	Code int    `json:"code"` // return code
-	Msg  string `json:"msg"`  // return information description
-	Data struct {
-		Userss []UsersObjDetail `json:"userss"`
-	} `json:"data"` // return data
-}
-
-// DeleteUserssByIDsRequest request params
-type DeleteUserssByIDsRequest struct {
-	IDs []uint64 `json:"ids" binding:"min=1"` // id list
-}
-
 // GetUsersByConditionRequest request params
 type GetUsersByConditionRequest struct {
 	query.Conditions
@@ -103,19 +89,5 @@ type GetUsersByConditionReply struct {
 	Msg  string `json:"msg"`  // return information description
 	Data struct {
 		Users UsersObjDetail `json:"users"`
-	} `json:"data"` // return data
-}
-
-// ListUserssByIDsRequest request params
-type ListUserssByIDsRequest struct {
-	IDs []uint64 `json:"ids" binding:"min=1"` // id list
-}
-
-// ListUserssByIDsReply only for api docs
-type ListUserssByIDsReply struct {
-	Code int    `json:"code"` // return code
-	Msg  string `json:"msg"`  // return information description
-	Data struct {
-		Userss []UsersObjDetail `json:"userss"`
 	} `json:"data"` // return data
 }

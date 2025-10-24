@@ -70,34 +70,10 @@ func newUsersHandler() *gotest.Handler {
 			HandlerFunc: iHandler.GetByID,
 		},
 		{
-			FuncName:    "List",
-			Method:      http.MethodPost,
-			Path:        "/users/list",
-			HandlerFunc: iHandler.List,
-		},
-		{
-			FuncName:    "DeleteByIDs",
-			Method:      http.MethodPost,
-			Path:        "/users/delete/ids",
-			HandlerFunc: iHandler.DeleteByIDs,
-		},
-		{
 			FuncName:    "GetByCondition",
 			Method:      http.MethodPost,
 			Path:        "/users/condition",
 			HandlerFunc: iHandler.GetByCondition,
-		},
-		{
-			FuncName:    "ListByIDs",
-			Method:      http.MethodPost,
-			Path:        "/users/list/ids",
-			HandlerFunc: iHandler.ListByIDs,
-		},
-		{
-			FuncName:    "ListByLastID",
-			Method:      http.MethodGet,
-			Path:        "/users/list",
-			HandlerFunc: iHandler.ListByLastID,
 		},
 	}
 
@@ -221,72 +197,6 @@ func Test_usersHandler_GetByID(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func Test_usersHandler_List(t *testing.T) {
-	h := newUsersHandler()
-	defer h.Close()
-	testData := h.TestData.(*model.Users)
-
-	// column names and corresponding data
-	rows := sqlmock.NewRows([]string{"id"}).
-		AddRow(testData.ID)
-
-	h.MockDao.SQLMock.ExpectQuery("SELECT .*").WillReturnRows(rows)
-
-	result := &httpcli.StdResult{}
-	err := httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserssRequest{query.Params{
-		Page:  0,
-		Limit: 10,
-		Sort:  "ignore count", // ignore test count
-	}})
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result.Code != 0 {
-		t.Fatalf("%+v", result)
-	}
-
-	// nil params error test
-	err = httpcli.Post(result, h.GetRequestURL("List"), nil)
-	assert.NoError(t, err)
-
-	// get error test
-	err = httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserssRequest{query.Params{
-		Page:  0,
-		Limit: 10,
-		Sort:  "unknown-column",
-	}})
-	assert.Error(t, err)
-}
-
-func Test_usersHandler_DeleteByIDs(t *testing.T) {
-	h := newUsersHandler()
-	defer h.Close()
-	testData := h.TestData.(*model.Users)
-
-	h.MockDao.SQLMock.ExpectBegin()
-	h.MockDao.SQLMock.ExpectExec("UPDATE .*").
-		WithArgs(h.MockDao.AnyTime, testData.ID). // adjusted for the amount of test data
-		WillReturnResult(sqlmock.NewResult(int64(testData.ID), 1))
-	h.MockDao.SQLMock.ExpectCommit()
-
-	result := &httpcli.StdResult{}
-	err := httpcli.Post(result, h.GetRequestURL("DeleteByIDs"), &types.DeleteUserssByIDsRequest{IDs: []uint64{testData.ID}})
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result.Code != 0 {
-		t.Fatalf("%+v", result)
-	}
-
-	// zero id error test
-	err = httpcli.Post(result, h.GetRequestURL("DeleteByIDs"), nil)
-	assert.NoError(t, err)
-
-	// get error test
-	err = httpcli.Post(result, h.GetRequestURL("DeleteByIDs"), &types.DeleteUserssByIDsRequest{IDs: []uint64{111}})
-	assert.Error(t, err)
-}
-
 func Test_usersHandler_GetByCondition(t *testing.T) {
 	h := newUsersHandler()
 	defer h.Close()
@@ -331,59 +241,6 @@ func Test_usersHandler_GetByCondition(t *testing.T) {
 			},
 		},
 	})
-	assert.Error(t, err)
-}
-
-func Test_usersHandler_ListByIDs(t *testing.T) {
-	h := newUsersHandler()
-	defer h.Close()
-	testData := h.TestData.(*model.Users)
-
-	// column names and corresponding data
-	rows := sqlmock.NewRows([]string{"id"}).
-		AddRow(testData.ID)
-
-	h.MockDao.SQLMock.ExpectQuery("SELECT .*").WillReturnRows(rows)
-
-	result := &httpcli.StdResult{}
-	err := httpcli.Post(result, h.GetRequestURL("ListByIDs"), &types.ListUserssByIDsRequest{IDs: []uint64{testData.ID}})
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result.Code != 0 {
-		t.Fatalf("%+v", result)
-	}
-
-	// zero id error test
-	_ = httpcli.Post(result, h.GetRequestURL("ListByIDs"), nil)
-
-	// get error test
-	err = httpcli.Post(result, h.GetRequestURL("ListByIDs"), &types.ListUserssByIDsRequest{IDs: []uint64{111}})
-	assert.Error(t, err)
-}
-
-func Test_usersHandler_ListByLastID(t *testing.T) {
-	h := newUsersHandler()
-	defer h.Close()
-	testData := h.TestData.(*model.Users)
-
-	// column names and corresponding data
-	rows := sqlmock.NewRows([]string{"id"}).
-		AddRow(testData.ID)
-
-	h.MockDao.SQLMock.ExpectQuery("SELECT .*").WillReturnRows(rows)
-
-	result := &httpcli.StdResult{}
-	err := httpcli.Get(result, h.GetRequestURL("ListByLastID"), httpcli.WithParams(map[string]interface{}{"id": 10}))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result.Code != 0 {
-		t.Fatalf("%+v", result)
-	}
-
-	// error test
-	err = httpcli.Get(result, h.GetRequestURL("ListByLastID"), httpcli.WithParams(map[string]interface{}{"lastID": 0, "limit": 10, "sort": "unknown-column"}))
 	assert.Error(t, err)
 }
 

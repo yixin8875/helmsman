@@ -2,9 +2,9 @@ package handler
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gin-gonic/gin"
-
 	"github.com/go-dev-frame/sponge/pkg/copier"
 	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
 	"github.com/go-dev-frame/sponge/pkg/gin/response"
@@ -69,6 +69,9 @@ func (h *tradesHandler) Create(c *gin.Context) {
 		response.Error(c, ecode.ErrCreateTrades)
 		return
 	}
+	// Note: if copier.Copy cannot assign a value to a field, add it here
+	trades.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	trades.UpdatedAt = trades.CreatedAt
 	// Note: if copier.Copy cannot assign a value to a field, add it here
 
 	ctx := middleware.WrapCtx(c)

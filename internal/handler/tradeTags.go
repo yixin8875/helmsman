@@ -28,6 +28,7 @@ type TradeTagsHandler interface {
 	UpdateByTradeID(c *gin.Context)
 	GetByTradeID(c *gin.Context)
 	List(c *gin.Context)
+	ListAll(c *gin.Context)
 }
 
 type tradeTagsHandler struct {
@@ -234,6 +235,36 @@ func (h *tradeTagsHandler) List(c *gin.Context) {
 	response.Success(c, gin.H{
 		"tradeTags": data,
 		"total":     total,
+	})
+}
+
+// ListAll list all tradeTags
+// @Summary  获取全部的tradeTags
+// @Description Returns a list of all tradeTags.
+// @Tags tradeTags
+// @Accept json
+// @Produce json
+// @Success 200 {object} types.ListTradeTagsReply{}
+// @Router /api/v1/tradeTags/all [post]
+// @Security BearerAuth
+func (h *tradeTagsHandler) ListAll(c *gin.Context) {
+
+	ctx := middleware.WrapCtx(c)
+	tradeTags, err := h.iDao.GetAll(ctx)
+	if err != nil {
+		logger.Error("GetAll error", logger.Err(err), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+
+	data, err := convertTradeTags(tradeTags)
+	if err != nil {
+		response.Error(c, ecode.ErrListTradeTags)
+		return
+	}
+
+	response.Success(c, gin.H{
+		"tradeTags": data,
 	})
 }
 

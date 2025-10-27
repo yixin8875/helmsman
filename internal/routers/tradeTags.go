@@ -28,4 +28,5 @@ func tradeTagsRouter(group *gin.RouterGroup, h handler.TradeTagsHandler) {
 	g.PUT("/:tradeID", h.UpdateByTradeID)    // [put] /api/v1/tradeTags/:tradeID
 	g.GET("/:tradeID", h.GetByTradeID)       // [get] /api/v1/tradeTags/:tradeID
 	g.POST("/list", h.List)                  // [post] /api/v1/tradeTags/list
+	g.POST("/all", h.ListAll)                // [get] /api/v1/tradeTags/all
 }

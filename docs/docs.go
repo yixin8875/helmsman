@@ -704,6 +704,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/tags/list/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of all tags.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tags"
+                ],
+                "summary": "Get all tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/types.ListTagssReply"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/tags/{id}": {
             "get": {
                 "security": [
@@ -854,6 +882,34 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/types.CreateTradeTagsReply"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tradeTags/all": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of all tradeTags.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tradeTags"
+                ],
+                "summary": "获取全部的tradeTags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/types.ListTradeTagsReply"
                         }
                     }
                 }

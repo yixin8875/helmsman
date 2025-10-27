@@ -2124,6 +2124,32 @@
         ]
       }
     },
+    "/api/v1/tags/list/all": {
+      "get": {
+        "description": "Returns a list of all tags.",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/types.ListTagssReply"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Get all tags",
+        "tags": [
+          "tags"
+        ]
+      }
+    },
     "/api/v1/tags/{id}": {
       "delete": {
         "description": "Deletes a existing tags identified by the given id in the path.",
@@ -2276,6 +2302,32 @@
           }
         ],
         "summary": "Create a new tradeTags",
+        "tags": [
+          "tradeTags"
+        ]
+      }
+    },
+    "/api/v1/tradeTags/all": {
+      "post": {
+        "description": "Returns a list of all tradeTags.",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/types.ListTradeTagsReply"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "获取全部的tradeTags",
         "tags": [
           "tradeTags"
         ]

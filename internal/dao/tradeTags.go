@@ -25,6 +25,7 @@ type TradeTagsDao interface {
 	UpdateByTradeID(ctx context.Context, table *model.TradeTags) error
 	GetByTradeID(ctx context.Context, tradeID int) (*model.TradeTags, error)
 	GetByColumns(ctx context.Context, params *query.Params) ([]*model.TradeTags, int64, error)
+	GetAll(ctx context.Context) ([]*model.TradeTags, error)
 
 	CreateByTx(ctx context.Context, tx *gorm.DB, table *model.TradeTags) (int, error)
 	DeleteByTx(ctx context.Context, tx *gorm.DB, tradeID int) error
@@ -215,4 +216,13 @@ func (d *tradeTagsDao) UpdateByTx(ctx context.Context, tx *gorm.DB, table *model
 	_ = d.deleteCache(ctx, table.TradeID)
 
 	return err
+}
+
+func (d *tradeTagsDao) GetAll(ctx context.Context) ([]*model.TradeTags, error) {
+	var records []*model.TradeTags
+	err := d.db.WithContext(ctx).Find(&records).Error
+	if err != nil {
+		return nil, err
+	}
+	return records, nil
 }

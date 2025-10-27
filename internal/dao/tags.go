@@ -25,6 +25,7 @@ type TagsDao interface {
 	UpdateByID(ctx context.Context, table *model.Tags) error
 	GetByID(ctx context.Context, id uint64) (*model.Tags, error)
 	GetByColumns(ctx context.Context, params *query.Params) ([]*model.Tags, int64, error)
+	GetAll(ctx context.Context, uid uint64) ([]*model.Tags, error)
 
 	CreateByTx(ctx context.Context, tx *gorm.DB, table *model.Tags) (uint64, error)
 	DeleteByTx(ctx context.Context, tx *gorm.DB, id uint64) error
@@ -214,4 +215,13 @@ func (d *tagsDao) UpdateByTx(ctx context.Context, tx *gorm.DB, table *model.Tags
 	_ = d.deleteCache(ctx, table.ID)
 
 	return err
+}
+
+func (d *tagsDao) GetAll(ctx context.Context, uid uint64) ([]*model.Tags, error) {
+	var records []*model.Tags
+	err := d.db.WithContext(ctx).Order("id asc").Where("user_id = ?", uid).Find(&records).Error
+	if err != nil {
+		return nil, err
+	}
+	return records, nil
 }

@@ -29,4 +29,5 @@ func tagsRouter(group *gin.RouterGroup, h handler.TagsHandler) {
 	g.PUT("/:id", h.UpdateByID)    // [put] /api/v1/tags/:id
 	g.GET("/:id", h.GetByID)       // [get] /api/v1/tags/:id
 	g.POST("/list", h.List)        // [post] /api/v1/tags/list
+	g.GET("/list/all", h.ListAll)  // [get] /api/v1/tags/list/all
 }

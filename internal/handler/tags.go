@@ -30,6 +30,7 @@ type TagsHandler interface {
 	UpdateByID(c *gin.Context)
 	GetByID(c *gin.Context)
 	List(c *gin.Context)
+	ListAll(c *gin.Context)
 }
 
 type tagsHandler struct {
@@ -242,6 +243,41 @@ func (h *tagsHandler) List(c *gin.Context) {
 	response.Success(c, gin.H{
 		"tagss": data,
 		"total": total,
+	})
+}
+
+// ListAll 获取全部标签
+// @Summary Get all tags
+// @Description Returns a list of all tags.
+// @Tags tags
+// @Accept json
+// @Produce json
+// @Success 200 {object} types.ListTagssReply{}
+// @Router /api/v1/tags/list/all [get]
+// @Security BearerAuth
+func (h *tagsHandler) ListAll(c *gin.Context) {
+	ctx := middleware.WrapCtx(c)
+	claim, ok := middleware.GetClaims(c)
+	if !ok {
+		response.Error(c, ecode.ErrCreateStrategies)
+		return
+	}
+	userID := cast.ToInt(claim.UID)
+	tagss, err := h.iDao.GetAll(ctx, uint64(userID))
+	if err != nil {
+		logger.Error("GetAll error", logger.Err(err), logger.Any("userID", userID), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+
+	data, err := convertTagss(tagss)
+	if err != nil {
+		response.Error(c, ecode.ErrListTags)
+		return
+	}
+
+	response.Success(c, gin.H{
+		"tagss": data,
 	})
 }
 

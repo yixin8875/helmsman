@@ -1490,6 +1490,23 @@ paths:
       summary: Get a paginated list of tagss by custom conditions
       tags:
       - tags
+  /api/v1/tags/list/all:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of all tags.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ListTagssReply'
+      security:
+      - BearerAuth: []
+      summary: Get all tags
+      tags:
+      - tags
   /api/v1/tradeTags:
     post:
       consumes:
@@ -1589,6 +1606,23 @@ paths:
       security:
       - BearerAuth: []
       summary: Update a tradeTags by tradeID
+      tags:
+      - tradeTags
+  /api/v1/tradeTags/all:
+    post:
+      consumes:
+      - application/json
+      description: Returns a list of all tradeTags.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ListTradeTagsReply'
+      security:
+      - BearerAuth: []
+      summary: 获取全部的tradeTags
       tags:
       - tradeTags
   /api/v1/tradeTags/list:

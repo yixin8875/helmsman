@@ -443,6 +443,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/strategies/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of all strategies.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "strategies"
+                ],
+                "summary": "Get all strategiess",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/types.GetAllStrategiesReply"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/strategies/list": {
             "post": {
                 "security": [
@@ -1944,6 +1972,31 @@ const docTemplate = `{
                     "properties": {
                         "accounts": {
                             "$ref": "#/definitions/types.AccountsObjDetail"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "return information description",
+                    "type": "string"
+                }
+            }
+        },
+        "types.GetAllStrategiesReply": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "return code",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "return data",
+                    "type": "object",
+                    "properties": {
+                        "strategiess": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/types.StrategiesObjDetail"
+                            }
                         }
                     }
                 },

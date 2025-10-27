@@ -510,6 +510,31 @@
         },
         "type": "object"
       },
+      "types.GetAllStrategiesReply": {
+        "properties": {
+          "code": {
+            "description": "return code",
+            "type": "integer"
+          },
+          "data": {
+            "description": "return data",
+            "properties": {
+              "strategiess": {
+                "items": {
+                  "$ref": "#/components/schemas/types.StrategiesObjDetail"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "msg": {
+            "description": "return information description",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "types.GetSnapshotsByIDReply": {
         "properties": {
           "code": {
@@ -1835,6 +1860,32 @@
           }
         ],
         "summary": "Create a new strategies",
+        "tags": [
+          "strategies"
+        ]
+      }
+    },
+    "/api/v1/strategies/all": {
+      "get": {
+        "description": "Returns a list of all strategies.",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/types.GetAllStrategiesReply"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Get all strategiess",
         "tags": [
           "strategies"
         ]

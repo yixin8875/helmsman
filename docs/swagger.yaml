@@ -347,6 +347,23 @@ definitions:
         description: return information description
         type: string
     type: object
+  types.GetAllStrategiesReply:
+    properties:
+      code:
+        description: return code
+        type: integer
+      data:
+        description: return data
+        properties:
+          strategiess:
+            items:
+              $ref: '#/definitions/types.StrategiesObjDetail'
+            type: array
+        type: object
+      msg:
+        description: return information description
+        type: string
+    type: object
   types.GetSnapshotsByIDReply:
     properties:
       code:
@@ -1304,6 +1321,23 @@ paths:
       security:
       - BearerAuth: []
       summary: Update a strategies by id
+      tags:
+      - strategies
+  /api/v1/strategies/all:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of all strategies.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.GetAllStrategiesReply'
+      security:
+      - BearerAuth: []
+      summary: Get all strategiess
       tags:
       - strategies
   /api/v1/strategies/list:

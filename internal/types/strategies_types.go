@@ -82,3 +82,16 @@ type ListStrategiessReply struct {
 		Strategiess []StrategiesObjDetail `json:"strategiess"`
 	} `json:"data"` // return data
 }
+
+// GetAllStrategiesRequest request params
+type GetAllStrategiesRequest struct {
+}
+
+// GetAllStrategiesReply only for api docs
+type GetAllStrategiesReply struct {
+	Code int    `json:"code"` // return code
+	Msg  string `json:"msg"`  // return information description
+	Data struct {
+		Strategiess []StrategiesObjDetail `json:"strategiess"`
+	} `json:"data"` // return data
+}

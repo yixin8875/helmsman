@@ -30,6 +30,7 @@ type StrategiesHandler interface {
 	UpdateByID(c *gin.Context)
 	GetByID(c *gin.Context)
 	List(c *gin.Context)
+	GetAll(c *gin.Context)
 }
 
 type strategiesHandler struct {
@@ -242,6 +243,34 @@ func (h *strategiesHandler) List(c *gin.Context) {
 	response.Success(c, gin.H{
 		"strategiess": data,
 		"total":       total,
+	})
+}
+
+// GetAll get all strategiess
+// @Summary Get all strategiess
+// @Description Returns a list of all strategies.
+// @Tags strategies
+// @Accept json
+// @Produce json
+// @Success 200 {object} types.GetAllStrategiesReply{}
+// @Router /api/v1/strategies/all [get]
+// @Security BearerAuth
+func (h *strategiesHandler) GetAll(c *gin.Context) {
+	ctx := middleware.WrapCtx(c)
+	strategies, err := h.iDao.GetAll(ctx)
+	if err != nil {
+		logger.Error("GetAll error", logger.Err(err), middleware.GCtxRequestIDField(c))
+		response.Output(c, ecode.InternalServerError.ToHTTPCode())
+		return
+	}
+
+	data, err := convertStrategiess(strategies)
+	if err != nil {
+		response.Error(c, ecode.ErrListStrategies)
+		return
+	}
+	response.Success(c, gin.H{
+		"strategiess": data,
 	})
 }
 

@@ -25,6 +25,7 @@ type StrategiesDao interface {
 	UpdateByID(ctx context.Context, table *model.Strategies) error
 	GetByID(ctx context.Context, id uint64) (*model.Strategies, error)
 	GetByColumns(ctx context.Context, params *query.Params) ([]*model.Strategies, int64, error)
+	GetAll(ctx context.Context) ([]*model.Strategies, error)
 
 	CreateByTx(ctx context.Context, tx *gorm.DB, table *model.Strategies) (uint64, error)
 	DeleteByTx(ctx context.Context, tx *gorm.DB, id uint64) error
@@ -214,4 +215,13 @@ func (d *strategiesDao) UpdateByTx(ctx context.Context, tx *gorm.DB, table *mode
 	_ = d.deleteCache(ctx, table.ID)
 
 	return err
+}
+
+func (d *strategiesDao) GetAll(ctx context.Context) ([]*model.Strategies, error) {
+	var records []*model.Strategies
+	err := d.db.WithContext(ctx).Order("id asc").Find(&records).Error
+	if err != nil {
+		return nil, err
+	}
+	return records, nil
 }

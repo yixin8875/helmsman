@@ -29,4 +29,5 @@ func strategiesRouter(group *gin.RouterGroup, h handler.StrategiesHandler) {
 	g.PUT("/:id", h.UpdateByID)    // [put] /api/v1/strategies/:id
 	g.GET("/:id", h.GetByID)       // [get] /api/v1/strategies/:id
 	g.POST("/list", h.List)        // [post] /api/v1/strategies/list
+	g.GET("/all", h.GetAll)        // [get] /api/v1/strategies/all
 }

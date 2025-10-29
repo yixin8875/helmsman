@@ -146,3 +146,6 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
 .DEFAULT_GOAL := all
+
+update-web:
+	git submodule foreach git pull origin main

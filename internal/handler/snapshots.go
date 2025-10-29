@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -70,7 +71,8 @@ func (h *snapshotsHandler) Create(c *gin.Context) {
 		return
 	}
 	// Note: if copier.Copy cannot assign a value to a field, add it here
-
+	snapshots.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	snapshots.UpdatedAt = time.Now().Format("2006-01-02 15:04:05")
 	ctx := middleware.WrapCtx(c)
 	err = h.iDao.Create(ctx, snapshots)
 	if err != nil {
